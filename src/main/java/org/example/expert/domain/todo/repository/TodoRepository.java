@@ -28,7 +28,7 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
     Optional<Todo> findByIdWithUser(@Param("todoId") Long todoId);
 */
     @EntityGraph(attributePaths = "user")
-    Optional<Todo> findByIdWithUser(@Param("todoId") Long todoId);
+    Optional<Todo> findById(Long todoId);
 
     int countById(Long todoId);
 }
