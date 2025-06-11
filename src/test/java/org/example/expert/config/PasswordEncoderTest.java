@@ -10,8 +10,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ExtendWith(SpringExtension.class)
 class PasswordEncoderTest {
 
+    /*password 는 외부 의존성이 없는 클래스로 Mockito 어노테이션이 필요하지 않다.
     @InjectMocks
     private PasswordEncoder passwordEncoder;
+*/
+    PasswordEncoder passwordEncoder = new PasswordEncoder();
 
     @Test
     void matches_메서드가_정상적으로_동작한다() {
