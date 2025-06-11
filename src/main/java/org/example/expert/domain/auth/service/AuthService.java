@@ -26,13 +26,18 @@ public class AuthService {
     @Transactional
     public SignupResponse signup(SignupRequest signupRequest) {
 
+        // email중복시, 회원가입이 불가능하므로,
+        // 이를 제일 먼저 확인하여, 회원가입 가능시 진행하는 연산을 사전에 방지 합니다.
+        if (userRepository.existsByEmail(signupRequest.getEmail())) {
+            throw new InvalidRequestException("이미 존재하는 이메일입니다.");
+        }
+
+        // 회원가입이
         String encodedPassword = passwordEncoder.encode(signupRequest.getPassword());
 
         UserRole userRole = UserRole.of(signupRequest.getUserRole());
 
-        if (userRepository.existsByEmail(signupRequest.getEmail())) {
-            throw new InvalidRequestException("이미 존재하는 이메일입니다.");
-        }
+
 
         User newUser = new User(
                 signupRequest.getEmail(),
