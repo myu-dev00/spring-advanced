@@ -5,7 +5,7 @@ import org.example.expert.domain.comment.dto.response.CommentSaveResponse;
 import org.example.expert.domain.comment.entity.Comment;
 import org.example.expert.domain.comment.repository.CommentRepository;
 import org.example.expert.domain.common.dto.AuthUser;
-import org.example.expert.domain.common.exception.ServerException;
+import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.todo.entity.Todo;
 import org.example.expert.domain.todo.repository.TodoRepository;
 import org.example.expert.domain.user.entity.User;
@@ -43,7 +43,9 @@ class CommentServiceTest {
         given(todoRepository.findById(anyLong())).willReturn(Optional.empty());
 
         // when
-        ServerException exception = assertThrows(ServerException.class, () -> {
+        // 테스트 목적: 댓글을 등록하려 했지만 할일이 존재하지 않아 예외가 발생 -> 사용자의 잘못된 입력
+        // 서버 오류 ServerException이 아닌 요청 유효성 실패(InvalidRequestException)임.
+        InvalidRequestException exception = assertThrows(InvalidRequestException.class, () -> {
             commentService.saveComment(authUser, todoId, request);
         });
 
